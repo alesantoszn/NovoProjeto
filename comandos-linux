@@ -1,3 +1,5 @@
+COMANDOS LINUX, by Alexandre Saraiva.
+
 df -h (Disk free -h humano) ver todas os volumes montados e o
 tamanho, usado e disponivel.
 
@@ -11,13 +13,13 @@ Para ver o UUID de um dispositivo:
 
 PARA ALTERAR O BOOT DO CENTOS
 # vim /etc/inittab 
-id:5:initdefault: (Inicialização em modo gráfico)
-id:3:initdefault: (Inicialização em modo texto)
+id:5:initdefault: (InicializaÃ§Ã£o em modo grÃ¡fico)
+id:3:initdefault: (InicializaÃ§Ã£o em modo texto)
 
 PARA ALTERAR O BOOT DO DEBIAN
 #vi /etc/default/grub
 GRUB_CMDLINE_LINUX="3" 
-Depois é só atualizar o Grub: #update-grub
+Depois Ã© sÃ³ atualizar o Grub: #update-grub
 
 PARA ALTERAR A NOMENCLATURA DAS PLACAS DE REDES NO DEBIAN 9 DE enp2s0 para ethX
 
@@ -30,7 +32,7 @@ DESCOBRIR TODOS OS HOSTS DA REDE COM O NMAP:
 #nmap -sP IpDaRede/Mascara
 
 
-Para montar a partição como leitura no mode-de-recuperação e acertar o fstab:
+Para montar a partiÃ§Ã£o como leitura no mode-de-recuperaÃ§Ã£o e acertar o fstab:
 
 mount -o remount,rw /dev/sdax/
 
@@ -41,14 +43,14 @@ mount -o remount,rw /dev/sdax/
 
 
 #mount -t cifs //IP/srvbkp /mnt/srvbkp -o username=YYY,password=XXX,vers=1.0 (vers=1.0 
-para o mount usar a versão 1.0 do SMB)
+para o mount usar a versÃ£o 1.0 do SMB)
 
 #rsync -av /home/ /mnt/srvbkp/
 
 rsync --dry-run -XAavz --delete-after /home/
 
-Para saber se um pacote está instalado no sistema: rpm -qa
-Ex:rpm -qa | grep cups (para saber se o cups está instalado)
+Para saber se um pacote estÃ¡ instalado no sistema: rpm -qa
+Ex:rpm -qa | grep cups (para saber se o cups estÃ¡ instalado)
 - #service cups status (para ver o status do cups)
 
 para ver o nome da maquina: hostname
@@ -57,24 +59,24 @@ para alterar o nome da maquina: #hostname nome
 Sintaxe: find, para localizar um arquivo: 
 find / -name nome do arquivo
 
-Comando para saber a versão do Centos instalada:
+Comando para saber a versÃ£o do Centos instalada:
 cat /etc/redhat-release
 
 du -ch --max-depth=1 /home/
 
-Adicionar usuários sistema e samba:
+Adicionar usuÃ¡rios sistema e samba:
 
 adduser usuario
 passwd usuario
 smbpasswd -a usuario
-usermod -a -G grupo usuario (para adicionar um usuário em um grupo) 
+usermod -a -G grupo usuario (para adicionar um usuÃ¡rio em um grupo) 
 
-Mudar Grupo e Permissões de uma Pasta
+Mudar Grupo e PermissÃµes de uma Pasta
 
 #groupadd NomeDoGrupo (Criar novo grupo)
 #chown Owner Grupo (mudar o dono da pasta)
 #chgrp -R Grupo Pasta
-#chmod g+s -R NomeDaPasta à adicionar o bit "s" q
+#chmod g+s -R NomeDaPasta Ã  adicionar o bit "s" q
 #chmod -R 775 Pasta
 
 CONFIGURANDO SAMBA PARA PDC
@@ -83,46 +85,46 @@ Para adicionar um computador ao dominio, ele precisar ter uma conta criada no sa
 # passwd -l nomedacontacriada sem o $ 
 # smbpasswd -a -m nomedacontacriada sem o $
 
-Para atualizar o Debian para uma nova versão.
+Para atualizar o Debian para uma nova versÃ£o.
 
-Consultar Versões Debian:
+Consultar VersÃµes Debian:
 https://www.debian.org/releases/index.pt.html
 
-Mudar no arquivo /etc/apt/source.list o nome da nova distribuição do Debian (Buster)
+Mudar no arquivo /etc/apt/source.list o nome da nova distribuiÃ§Ã£o do Debian (Buster)
 #apt-get update
 #apt-get upgrade
 #apt-get dist-upgrade 
 
-CONFIGURANDO RAID1 NA INSTALAÇÃO DO DEBIAN10.
+CONFIGURANDO RAID1 NA INSTALAÃ‡ÃƒO DO DEBIAN10.
 
-Depois de finalizada a instalação, verificar o estado da dispositivo raid com o comando:
+Depois de finalizada a instalaÃ§Ã£o, verificar o estado da dispositivo raid com o comando:
 #cat /proc/mdstat
 #lsblk
-PARA INSTALAR O GRUB TAMBÉM NO SEGUNDO DISPOSITIVO:
+PARA INSTALAR O GRUB TAMBÃ‰M NO SEGUNDO DISPOSITIVO:
 #grub-install /dev/sdb
 #update-grub
  
 SUBSTITUIR DISCOS DO RAID:
-Para que possamos iniciar a reconstrução do array utilizando o novo disco, 
-é necessário que a tabela de partição do novo disco, seja igual a primeira pois os 
-discos espelhados precisam ser iguais. Para gerenciar a tabela de partições podemos 
+Para que possamos iniciar a reconstruÃ§Ã£o do array utilizando o novo disco, 
+Ã© necessÃ¡rio que a tabela de partiÃ§Ã£o do novo disco, seja igual a primeira pois os 
+discos espelhados precisam ser iguais. Para gerenciar a tabela de partiÃ§Ãµes podemos 
 usar o comando sfdisk da seguinte forma:
 
-Fazendo backup da tabela de partições (partition table):
+Fazendo backup da tabela de partiÃ§Ãµes (partition table):
 #sfdisk -d /dev/sda > sda.table
 
-Para restaurar a tabela de partições: 
+Para restaurar a tabela de partiÃ§Ãµes: 
 #sfdisk /dev/sda < sda.table
 
-para clonar a tabela de partições.
-Isso clonará a tabela de partições do disco sda no disco sdb. 
-Neste processo não é feita nenhuma alteração no disco que está servindo como modelo (sda):
+para clonar a tabela de partiÃ§Ãµes.
+Isso clonarÃ¡ a tabela de partiÃ§Ãµes do disco sda no disco sdb. 
+Neste processo nÃ£o Ã© feita nenhuma alteraÃ§Ã£o no disco que estÃ¡ servindo como modelo (sda):
 #sfdisk -d /dev/sda | sfdisk /dev/sdb
 
 Depois restaurar cada disposito RAID MDx:
 mdadm /dev/md(x) -a /dev/sd(xn)
 
-Por último, caso os arrays pertençam a discos botaveis, será necessário reinstalar 
+Por Ãºltimo, caso os arrays pertenÃ§am a discos botaveis, serÃ¡ necessÃ¡rio reinstalar 
 o grub no novo disco, para que ele posso ser iniciado em caso de falha no outro disco:
 # grub-install /dev/sd(x)
 
