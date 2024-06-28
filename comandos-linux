@@ -1,0 +1,128 @@
+df -h (Disk free -h humano) ver todas os volumes montados e o
+tamanho, usado e disponivel.
+
+cat /proc/mdstat
+
+#mdadm --detail /dev/md0
+
+Para ver o UUID de um dispositivo: 
+
+# blkid /dev/md0
+
+PARA ALTERAR O BOOT DO CENTOS
+# vim /etc/inittab 
+id:5:initdefault: (Inicialização em modo gráfico)
+id:3:initdefault: (Inicialização em modo texto)
+
+PARA ALTERAR O BOOT DO DEBIAN
+#vi /etc/default/grub
+GRUB_CMDLINE_LINUX="3" 
+Depois é só atualizar o Grub: #update-grub
+
+PARA ALTERAR A NOMENCLATURA DAS PLACAS DE REDES NO DEBIAN 9 DE enp2s0 para ethX
+
+# Edite seu /etc/default/grub e mude a linha:
+GRUB_CMDLINE_LINUX="" para:
+GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0" salvar e sair.
+#update-grub e reiniciar o sistema.
+
+DESCOBRIR TODOS OS HOSTS DA REDE COM O NMAP:
+#nmap -sP IpDaRede/Mascara
+
+
+Para montar a partição como leitura no mode-de-recuperação e acertar o fstab:
+
+mount -o remount,rw /dev/sdax/
+
+>>> chmod 666 /etc/fstab
+
+>>> vi /etc/fstab
+
+
+
+#mount -t cifs //IP/srvbkp /mnt/srvbkp -o username=YYY,password=XXX,vers=1.0 (vers=1.0 
+para o mount usar a versão 1.0 do SMB)
+
+#rsync -av /home/ /mnt/srvbkp/
+
+rsync --dry-run -XAavz --delete-after /home/
+
+Para saber se um pacote está instalado no sistema: rpm -qa
+Ex:rpm -qa | grep cups (para saber se o cups está instalado)
+- #service cups status (para ver o status do cups)
+
+para ver o nome da maquina: hostname
+para alterar o nome da maquina: #hostname nome
+
+Sintaxe: find, para localizar um arquivo: 
+find / -name nome do arquivo
+
+Comando para saber a versão do Centos instalada:
+cat /etc/redhat-release
+
+du -ch --max-depth=1 /home/
+
+Adicionar usuários sistema e samba:
+
+adduser usuario
+passwd usuario
+smbpasswd -a usuario
+usermod -a -G grupo usuario (para adicionar um usuário em um grupo) 
+
+Mudar Grupo e Permissões de uma Pasta
+
+#groupadd NomeDoGrupo (Criar novo grupo)
+#chown Owner Grupo (mudar o dono da pasta)
+#chgrp -R Grupo Pasta
+#chmod g+s -R NomeDaPasta à adicionar o bit "s" q
+#chmod -R 775 Pasta
+
+CONFIGURANDO SAMBA PARA PDC
+Para adicionar um computador ao dominio, ele precisar ter uma conta criada no samba:
+# useradd -d /dev/null -s /bin/false nomedocomputador$ - colocar o dolar no final do nome.
+# passwd -l nomedacontacriada sem o $ 
+# smbpasswd -a -m nomedacontacriada sem o $
+
+Para atualizar o Debian para uma nova versão.
+
+Consultar Versões Debian:
+https://www.debian.org/releases/index.pt.html
+
+Mudar no arquivo /etc/apt/source.list o nome da nova distribuição do Debian (Buster)
+#apt-get update
+#apt-get upgrade
+#apt-get dist-upgrade 
+
+CONFIGURANDO RAID1 NA INSTALAÇÃO DO DEBIAN10.
+
+Depois de finalizada a instalação, verificar o estado da dispositivo raid com o comando:
+#cat /proc/mdstat
+#lsblk
+PARA INSTALAR O GRUB TAMBÉM NO SEGUNDO DISPOSITIVO:
+#grub-install /dev/sdb
+#update-grub
+ 
+SUBSTITUIR DISCOS DO RAID:
+Para que possamos iniciar a reconstrução do array utilizando o novo disco, 
+é necessário que a tabela de partição do novo disco, seja igual a primeira pois os 
+discos espelhados precisam ser iguais. Para gerenciar a tabela de partições podemos 
+usar o comando sfdisk da seguinte forma:
+
+Fazendo backup da tabela de partições (partition table):
+#sfdisk -d /dev/sda > sda.table
+
+Para restaurar a tabela de partições: 
+#sfdisk /dev/sda < sda.table
+
+para clonar a tabela de partições.
+Isso clonará a tabela de partições do disco sda no disco sdb. 
+Neste processo não é feita nenhuma alteração no disco que está servindo como modelo (sda):
+#sfdisk -d /dev/sda | sfdisk /dev/sdb
+
+Depois restaurar cada disposito RAID MDx:
+mdadm /dev/md(x) -a /dev/sd(xn)
+
+Por último, caso os arrays pertençam a discos botaveis, será necessário reinstalar 
+o grub no novo disco, para que ele posso ser iniciado em caso de falha no outro disco:
+# grub-install /dev/sd(x)
+
