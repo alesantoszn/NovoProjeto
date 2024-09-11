@@ -1,0 +1,37 @@
+###  MODO DE NAVEGAÇÃO ###
+
+### MUDAR PARA MODO DE INSERÇÃO ###
+i = inseri na posição atual
+a = inseri na posição seguinte
+A = inseri no final da linha
+o = inseri na linha de baixo
+O = inseri na linha de cima
+
+### Navegação ###
+G = vai para a última linha do arquivo
+gg ou 1G = vai para a primeira linha do arquivo
+
+
+x = apaga o caracter da posição atual
+10x = apaga 11 caracter
+dd = remove a linha inteira
+11dd = apaga 11 linhas
+yy = copia a linha atual
+p = cola a linha copiada na linha de baixo do cursor
+P = cola a linha copiada na linha de cima do cursor
+3yy = copia 3 linhas a partir da linha do cursor
+3p = cola 3 vezes o conteúdo que foi copiado
+
+
+
+### INÍCIO E FINAL DE LINHA ####
+0 = vai para o começo da linha
+$ = vai para o final da linha
+
+### Localizar palavras no arquivo ###
+### Em modo de navegação###
+/palavraABuscar 
+n = vai para a próxima ocorrência
+N = volta para a ocorrência anterior
+
+
